@@ -1,0 +1,20 @@
+{
+  "name": "cars-mobile",
+  "version": "1.0.0",
+  "description": "Mobile app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/k4d/cars-mobile.git"
+  },
+  "keywords": [],
+  "author": "Mikalai Siskevich <n.siskevich@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/k4d/cars-mobile/issues"
+  },
+  "homepage": "https://github.com/k4d/cars-mobile#readme"
+}
