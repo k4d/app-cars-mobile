@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Cars: Mobile app</title>
-	<link rel="stylesheet" href="app.css">
-</head>
-<body>
+<html lang="en" ng-app="CarApp">
+	<head>
+		<meta charset="utf-8">
+		<title>Car mobile app</title>
+		<link rel="stylesheet" href="app.css">
+	</head>
+	<body>
 
-    <h1>Hello, cars!</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est, ea!</p>
+		<div ng-controller="MainController as main">
+			<h1>Hello, {{ hello }}</h1>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est, ea!</p>
+			<input type="text" ng-model="value">
+		</div>
 
-	<script src="app.ng.js"></script>
+		<script src="angular.min.js"></script>
+		<script src="app.ng.js"></script>
 
-</body>
+	</body>
 </html>
