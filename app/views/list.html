@@ -1,0 +1,31 @@
+<h3>Cars List</h3>
+
+<input type="text" ng-model="search" ng-click="alert($event)" placeholder="Search">
+
+<p>{{ cars.length }} records</p>
+
+<table style="width: 500px">
+	<thead>
+		<tr>
+			<th>Brand</th>
+			<th>Model</th>
+			<th>Year</th>
+			<th>Price</th>
+			<th>Details</th>
+		</tr>
+	</thead>
+	<tbody>
+		<!-- year:2005 -->
+		<!-- {$:search} все поля -->
+		<!-- | orderBy:'year' -->
+		<tr ng-repeat="car in cars | filter:{brand:search}">
+			<td>{{ car.brand }}</td>
+			<td>{{ car.model }}</td>
+			<td>{{ car.year }}</td>
+			<td>{{ car.price | currency: '$' :0 }}</td>
+			<td>
+				<a href="#/cars/{{ $index }}" title="Details">Details</a>
+			</td>
+		</tr>
+	</tbody>
+</table>

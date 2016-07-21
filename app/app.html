@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="CarApp">
+<html lang="en" ng-app="CarsApp">
 	<head>
+		<!--<base href="/">-->
 		<meta charset="utf-8">
-		<title>Car mobile app</title>
+		<title>Cars mobile app</title>
 		<link rel="stylesheet" href="app.css">
 	</head>
 	<body>
 
-		<div ng-controller="MainController as main">
-			<h1>Hello, {{ hello }}</h1>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est, ea!</p>
-			<input type="text" ng-model="value">
-		</div>
+		<ng-view></ng-view>
 
-		<script src="angular.min.js"></script>
+		<script src="../bower_components/angular/angular.min.js"></script>
+		<script src="../bower_components/angular-route/angular-route.min.js"></script>
+		<script src="../bower_components/angular-touch/angular-touch.min.js"></script>
 		<script src="app.ng.js"></script>
-
 	</body>
 </html>

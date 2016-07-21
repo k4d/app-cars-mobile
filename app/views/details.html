@@ -1,0 +1,9 @@
+<h3>{{ car.brand }} {{ car.model }}</h3>
+
+<p><b>Classification:</b> {{ car.classification }}</p>
+<p><b>Transmission:</b> {{ car.transmission }}</p>
+<p><b>Fuel:</b> {{ car.fuel }}</p>
+<p><b>Year:</b> {{ car.year }}</p>
+<p><b>Price:</b> {{ car.price | currency: '$' :0 }}</p>
+
+<a href="#/">Back to List</a> 
