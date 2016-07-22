@@ -7,19 +7,17 @@
 <table style="width: 500px">
 	<thead>
 		<tr>
-			<th>Brand</th>
-			<th>Model</th>
-			<th>Year</th>
-			<th>Price</th>
+			<th ng-click="orderByField('brand')" style="cursor:pointer">Brand</th>
+			<th ng-click="orderByField('model')" style="cursor:pointer">Model</th>
+			<th ng-click="orderByField('year')" style="cursor:pointer">Year</th>
+			<th ng-click="orderByField('price')" style="cursor:pointer"Price</th>
 			<th>Details</th>
 		</tr>
 	</thead>
 	<tbody>
-		<!-- year:2005 -->
-		<!-- {$:search} все поля -->
 		<!-- | orderBy:'year' -->
-		<tr ng-repeat="car in cars | filter:{brand:search}">
-			<td>{{ car.brand }}</td>
+		<tr ng-repeat="car in cars | filter:{$:search} | orderBy:orderField:orderReverse">
+			<td>{{ car.brand | filterSearch }}</td>
 			<td>{{ car.model }}</td>
 			<td>{{ car.year }}</td>
 			<td>{{ car.price | currency: '$' :0 }}</td>

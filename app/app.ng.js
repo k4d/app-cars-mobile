@@ -2,7 +2,7 @@ console.info( 'Angular version', angular.version.full );
 
 //	Angular App
 
-let App = angular.module( 'CarsApp', ['ngRoute'] );
+let App = angular.module( 'CarsApp', ['ngRoute', 'ngResource'] );
 
 App.config([ '$routeProvider', '$locationProvider', function( $routeProvider, $locationProvider ) {
 
@@ -29,19 +29,21 @@ App.config([ '$routeProvider', '$locationProvider', function( $routeProvider, $l
 		});
 }]);
 
-App.controller( 'IndexCtrl', [ '$scope', '$http', '$location', function( $scope, $http, $location ) {
+App.factory('Cars', [
+	'$resource', function( $resource ) {
+		return $resource( '../data/cars.json', {} )
+	}
+]);
 
-	$http.get( '../data/cars.json' )
-		.success(( data, status, headers, config ) => {
-			$scope.cars = data;
-			// console.log( 'status', status );
-			// console.log( 'headers', headers );
-			// console.log( 'config', config );
-			console.info( $scope.cars );
-		})
-		.error(( data, status ) => {
-			console.log("Error status : " + status);
-		});
+App.filter( 'filterSearch', function(){
+	return function( item ) {
+		return item;
+	};
+});
+
+App.controller( 'IndexCtrl', [ '$scope', '$http', '$location', 'Cars', function( $scope, $http, $location, Cars ) {
+
+	$scope.cars = Cars.query();
 
 	$scope.search = '';
 
@@ -49,13 +51,21 @@ App.controller( 'IndexCtrl', [ '$scope', '$http', '$location', function( $scope,
 		console.log( `Watch value: ${$scope.search}` );
 	});
 
-	$scope.filter = function ( item ) {
+	$scope.filter = function ( value, index, array ) {
 		if ( $scope.search.length >= 2 ) {
-			return item.brand.toLowerCase() === $scope.search.toLowerCase();
+			return value.brand.toLowerCase() === $scope.search.toLowerCase();
 		} else {
-			return item;
+			return value;
 		}
-	}
+	};
+
+	$scope.orderField = null;
+	$scope.orderReverse = true;
+
+	$scope.orderByField = function ( field ) {
+		$scope.orderReverse = ($scope.orderField === field) ? !$scope.orderReverse : false;
+		$scope.orderField = field;
+	};
 
 }]);
 
