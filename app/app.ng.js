@@ -79,6 +79,6 @@ App.controller( 'DetailsCtrl', [ '$scope', '$http', '$location', '$routeParams',
 			$scope.car = $scope.cars[$scope.id];
 		})
 		.error(( data, status ) => {
-			console.log("Error status : " + status);
+			console.log( 'Error status: ', status );
 		});
 }]);
