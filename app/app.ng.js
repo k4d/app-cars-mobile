@@ -4,6 +4,12 @@ console.info( 'Angular version', angular.version.full );
 
 let App = angular.module( 'CarsApp', ['ngRoute', 'ngResource'] );
 
+App.run( function( $rootScope ) {
+	$rootScope.hey = 'Yoh';
+});
+
+App.constant( 'config', {} );
+
 App.config([ '$routeProvider', '$locationProvider', function( $routeProvider, $locationProvider ) {
 
 	// $locationProvider.html5Mode({
@@ -13,27 +19,40 @@ App.config([ '$routeProvider', '$locationProvider', function( $routeProvider, $l
 
 	$routeProvider
 		.when('/',{
-			templateUrl: 'views/list.html',
-			controller: 'IndexCtrl'
+			templateUrl : 'views/list.html',
+			controller : 'IndexCtrl'
 		})
 		.when('/list',{
-			templateUrl: 'views/list.html',
-			controller: 'IndexCtrl'
+			templateUrl : 'views/list.html',
+			controller : 'IndexCtrl'
 		})
 		.when('/cars/:id',{
-			templateUrl: 'views/details.html',
-			controller: 'DetailsCtrl'
+			templateUrl : 'views/details.html',
+			controller : 'DetailsCtrl'
 		})
 		.otherwise({
-			retirectTo: '/'
+			retirectTo : '/'
 		});
 }]);
 
-App.factory('Cars', [
+App.factory( 'Cars', [
 	'$resource', function( $resource ) {
-		return $resource( '../data/cars.json', {} )
+		return $resource( '../data/:path.:format', {
+			path : 'cars',
+			format : 'json',
+			apiKey : 'carsKey'
+		})
 	}
 ]);
+
+App.directive( 'customTitle', function() {
+	return {
+		restrict : 'E',
+		scope : {},
+		// template : '<h3>Hello, Custom Title</h3>',
+		templateUrl : 'views/custom.html'
+	};
+});
 
 App.filter( 'filterSearch', function(){
 	return function( item ) {
@@ -41,9 +60,11 @@ App.filter( 'filterSearch', function(){
 	};
 });
 
-App.controller( 'IndexCtrl', [ '$scope', '$http', '$location', 'Cars', function( $scope, $http, $location, Cars ) {
+App.controller( 'IndexCtrl', [ '$rootScope', '$scope', '$http', '$location', 'Cars', function( $rootScope, $scope, $http, $location, Cars ) {
 
-	$scope.cars = Cars.query();
+	Cars.query( {}, function ( data ) {
+		$scope.cars = data;
+	});
 
 	$scope.search = '';
 
@@ -69,16 +90,10 @@ App.controller( 'IndexCtrl', [ '$scope', '$http', '$location', 'Cars', function(
 
 }]);
 
-App.controller( 'DetailsCtrl', [ '$scope', '$http', '$location', '$routeParams', function( $scope, $http, $location, $routeParams ) {
+App.controller( 'DetailsCtrl', [ '$rootScope', '$scope', '$http', '$location', '$routeParams', 'Cars', function( $rootScope, $scope, $http, $location, $routeParams, Cars ) {
 
-	$scope.id = $routeParams.id;
-
-	$http.get( '../data/cars.json' )
-		.success(( data, status, headers, config ) => {
-			$scope.cars = data;
-			$scope.car = $scope.cars[$scope.id];
-		})
-		.error(( data, status ) => {
-			console.log( 'Error status: ', status );
-		});
+	Cars.query( {}, function ( data ) {
+		$scope.cars = data;
+ 		$scope.car = $scope.cars[$routeParams.id];
+	});
 }]);
